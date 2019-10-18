@@ -29,16 +29,15 @@ public class ProposalController extends Controller {
 			}
 			error = this.addProposedCombination(colors);
 			if (error != null) {
-				this.proposedCombinationView.showError(error);
+				new ErrorView(error).writeln();
 			}
 		} while (error != null);
 		this.proposedCombinationView.writeln();
-		new AttemptsView().writeln(this.session.getAttempts());
-		new SecretCombinationView().writeln(this.session.getGameWidth());
+		new GameView().writeGame(this.session);
+		this.checkGame();
+	}
 
-		for (int i = 0; i < this.session.getAttempts(); i++) {
-			this.writeColors(i);
-		}
+	private void checkGame(){
 		if (this.session.isWinner()) {
 			this.proposedCombinationView.writeln(MessageView.WINNER.getMessage());
 			this.session.next();
@@ -46,13 +45,6 @@ public class ProposalController extends Controller {
 			this.proposedCombinationView.writeln(MessageView.LOOSER.getMessage());
 			this.session.next();
 		}
-	}
-
-	private void writeColors(int position){
-		for (Color color : this.session.getColors(position)) {
-			new ColorView(color).write();
-		}
-		new ResultView().writeln(this.session.getBlacks(position),this.session.getWhites(position));
 	}
 
 	private Error addProposedCombination(List<Color> colors) {

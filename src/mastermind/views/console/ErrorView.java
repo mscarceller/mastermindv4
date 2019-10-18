@@ -3,13 +3,13 @@ package mastermind.views.console;
 import mastermind.types.Error;
 import santaTecla.utils.Console;
 
-class ErrorView extends mastermind.views.ErrorView {
+public class ErrorView extends mastermind.views.ErrorView {
 
-	ErrorView(Error error) {
+	public ErrorView(Error error) {
 		super(error);
 	}
 	
-	void writeln() {
+	public void writeln() {
 		new Console().writeln(ErrorView.MESSAGES[this.error.ordinal()]);
 	}	
 
